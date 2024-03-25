@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
 
 export default function SignupPage() {
 
@@ -39,7 +38,6 @@ export default function SignupPage() {
         })
         .catch((error: any) => {
             console.log("Signup Failed", error.response.data.error)
-            toast.error(error)
         })
     }
 
