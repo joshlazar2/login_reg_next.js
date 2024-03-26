@@ -34,7 +34,7 @@ export default function SignupPage() {
             .then((res) => {
                 console.log(res)
                 console.log(res.data.message)
-                router.push('/login')
+                router.push('/dashboard')
             })
             .catch((error: any) => {
                 console.log("Signup Failed", error.response.data.error)

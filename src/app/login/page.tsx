@@ -33,7 +33,7 @@ export default function LoginPage() {
             .then((res) => {
                 console.log(res)
                 console.log(res.data.message)
-                router.push('/profile')
+                router.push('/dashboard')
             })
             .catch((error: any) => {
                 console.log("Login Failed", error.response.data.error)
