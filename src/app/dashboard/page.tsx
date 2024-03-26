@@ -33,7 +33,7 @@ export default function DashboardPage() {
             .catch((err) => {
                 console.log(err)
             })
-    }, [])
+    }, [myTodos])
 
     const logoutHandler = () => {
         axios.get('api/users/logout')
@@ -44,6 +44,17 @@ export default function DashboardPage() {
             })
             .catch((error: any) => {
                 console.log(error)
+            })
+    }
+
+    //Research (any) and typescipt stuff
+    const completedHandler = (id: any) => {
+        axios.put(`/api/todos/complete/${id}`)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
             })
     }
 
@@ -66,16 +77,20 @@ export default function DashboardPage() {
                                 <p className='text-lg'>{user.email}</p>
                             </div>
                         </div>
-                        <button onClick={() => router.push('/createTodo')} className='bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-700 hover:shadow-xl'>Create a Todo</button>
+                        <div className='flex flex-col space-y-4'>
+                            <button onClick={() => router.push('/createTodo')} className='bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-700 hover:shadow-xl'>Create a Todo</button>
+                            <button onClick={() => router.push('/completedTodos')} className='bg-green-500 text-white p-2 rounded-xl hover:bg-green-700 hover:shadow-xl'>View Completed Todo's</button>
+                        </div>
                     </div>
                     <div className='flex flex-col items-center space-y-4'>
                         <h2 className='text-2xl text-blue-500'>My Todos</h2>
                         {
-                            myTodos.map((todo) => (
-                                <div className='bg-white p-8 rounded-2xl shadow-2xl'>
+                            myTodos.map((todo: any) => (
+                                <div key={todo._id} className='bg-white p-8 rounded-2xl shadow-2xl'>
                                     <div className='flex flex-col items-center space-y-4'>
                                         <p className='text-blue-500'>Content:</p>
                                         <p>{todo.content}</p>
+                                        <button onClick={() => completedHandler(todo._id)} className='bg-green-500 text-white rounded-lg p-2 hover:bg-green-700 hover:shadow-xl'>Complete</button>
                                     </div>
                                 </div>
                             ))

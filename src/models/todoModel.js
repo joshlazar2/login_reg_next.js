@@ -8,6 +8,10 @@ const todoSchema = new mongoose.Schema({
     },
     user_id: {
         type: mongoose.Types.ObjectId
+    },
+    completed: {
+        type: Boolean,
+        default: false
     }
 }, {timestamps: true})
 
