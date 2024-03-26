@@ -21,7 +21,7 @@ export default function SignupPage() {
     }
 
     useEffect(() => {
-        if(user.email.length > 0 && user.password.length > 0 && user.username.length > 0){
+        if (user.email.length > 0 && user.password.length > 0 && user.username.length > 0) {
             setButtonDisabled(false)
         } else {
             setButtonDisabled(true)
@@ -31,37 +31,41 @@ export default function SignupPage() {
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         axios.post('/api/users/signup', user)
-        .then((res) => {
-            console.log(res)
-            console.log(res.data.message)
-            router.push('/login')
-        })
-        .catch((error: any) => {
-            console.log("Signup Failed", error.response.data.error)
-        })
+            .then((res) => {
+                console.log(res)
+                console.log(res.data.message)
+                router.push('/login')
+            })
+            .catch((error: any) => {
+                console.log("Signup Failed", error.response.data.error)
+            })
     }
 
     return (
-        <div className="flex justify-center">
-            <h1 className="text-2xl">Signup</h1>
-            <form onSubmit={submitHandler}>
-                <div>
-                    <label>Username:</label>
-                    <input onChange={signupHandler} type="text" name='username' placeholder='username' />
+        <div className="bg-slate-100 min-h-screen">
+            <div className='flex items-center justify-center p-8'>
+                <div className='bg-white rounded-2xl p-8 shadow-2xl space-y-8'>
+                    <h1 className="text-2xl text-center text-blue-500">Signup</h1>
+                    <form className='flex flex-col items-center space-y-6' onSubmit={submitHandler}>
+                        <div className='space-x-2'>
+                            <label className='text-lg'>Username:</label>
+                            <input className='border border-black rounded-xl text-sm p-2' onChange={signupHandler} type="text" name='username' placeholder='username' />
+                        </div>
+                        <div className='space-x-2'>
+                            <label className='text-lg'>Email:</label>
+                            <input className='border border-black rounded-xl text-sm p-2' onChange={signupHandler} type="text" name='email' placeholder='email' />
+                        </div>
+                        <div className='space-x-2'>
+                            <label className='text-lg'>Password:</label>
+                            <input className='border border-black rounded-xl text-sm p-2' onChange={signupHandler} type="password" name='password' placeholder='password' />
+                        </div>
+                        {
+                            buttonDisabled ? null : <button className='w-1/2 bg-blue-500 hover:bg-blue-700 text-white hover:shadow-xl p-2 rounded-xl'>Signup</button>
+                        }
+                    </form>
+                    <p className='text-center'><Link href='/login'>Already Have an Acccount? Login</Link></p>
                 </div>
-                <div>
-                    <label>Email:</label>
-                    <input onChange={signupHandler} type="text" name='email' placeholder='email' />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input onChange={signupHandler} type="password" name='password' placeholder='password' />
-                </div>
-                {
-                    buttonDisabled ? null : <button>Signup</button>
-                }
-            </form>
-            <Link href='/login'>Already Have an Acccount? Login</Link>
+            </div>
         </div>
     )
 }
