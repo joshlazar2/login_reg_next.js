@@ -17,7 +17,7 @@ export default function completedTodosPage() {
             .catch((err) => {
                 console.log(err)
             })
-    }, [completedTodos])
+    }, [])
 
     //Research (any) and typescipt stuff
     const completedHandler = (id: any) => {
@@ -28,6 +28,16 @@ export default function completedTodosPage() {
             .catch((err) => {
                 console.log(err)
             })
+    }
+
+    const deleteHandler = (id: any) => {
+        axios.delete(`/api/todos/delete/${id}`)
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     }
 
     return (
@@ -44,6 +54,7 @@ export default function completedTodosPage() {
                                         <p className='text-blue-500'>Content:</p>
                                         <p>{todo.content}</p>
                                         <button onClick={() => completedHandler(todo._id)} className='bg-green-500 text-white rounded-lg p-2 hover:bg-green-700 hover:shadow-xl'>Not Completed</button>
+                                        <button onClick={() => deleteHandler(todo._id)} className='bg-red-500 text-white rounded-lg p-2 hover:bg-red-700 hover:shadow-xl w-[90px]'>Delete</button>
                                     </div>
                                 </div>
                             ))

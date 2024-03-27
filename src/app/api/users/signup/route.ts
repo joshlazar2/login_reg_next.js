@@ -2,6 +2,7 @@ import { Connect } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from 'bcryptjs';
+import {isEmail} from 'validator';
 
 
 Connect()
@@ -9,13 +10,29 @@ Connect()
 export async function POST(request: NextRequest){
     try{
         const reqBody = await request.json()
-        const {username, email, password} = reqBody
+        const {username, email, password, confirmPassword} = reqBody
+        let errors: { [key: string]: string } = {}; //Research this with typescript strictness
 
         //check if user already exists
         const user = await User.findOne({email})
 
         if(user){
-            return NextResponse.json({error: 'Email Already Exists'}, {status: 400})
+            errors.email = 'Email Already Exists'
+            // return NextResponse.json({error: 'Email Already Exists'}, {status: 400})
+        }
+
+        if(!isEmail(email)){
+            errors.email = 'Email is Invalid'
+            // return NextResponse.json({error: 'Invalid Email'}, {status: 400})
+        }
+
+        if(password !== confirmPassword){
+            errors.password = "Passwords Don't match"
+            // return NextResponse.json({error: 'Passwords Do Not Match'}, {status: 400})
+        }
+
+        if(errors.email || errors.password){
+            return NextResponse.json(errors, {status: 400})
         }
 
         //hash password

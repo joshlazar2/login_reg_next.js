@@ -11,8 +11,11 @@ export default function SignupPage() {
     const [user, setUser] = useState({
         username: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     })
+
+    const [errors, setErrors] = useState({})
 
     const [buttonDisabled, setButtonDisabled] = useState(false)
 
@@ -21,7 +24,7 @@ export default function SignupPage() {
     }
 
     useEffect(() => {
-        if (user.email.length > 0 && user.password.length > 0 && user.username.length > 0) {
+        if (user.email.length > 0 && user.password.length > 0 && user.username.length > 0 && user.confirmPassword.length > 0) {
             setButtonDisabled(false)
         } else {
             setButtonDisabled(true)
@@ -34,10 +37,11 @@ export default function SignupPage() {
             .then((res) => {
                 console.log(res)
                 console.log(res.data.message)
-                router.push('/dashboard')
+                router.push('/')
             })
             .catch((error: any) => {
-                console.log("Signup Failed", error.response.data.error)
+                console.log("Signup Failed", error)
+                setErrors(error.response.data)
             })
     }
 
@@ -55,15 +59,25 @@ export default function SignupPage() {
                             <label className='text-lg'>Email:</label>
                             <input className='border border-black rounded-xl text-sm p-2' onChange={signupHandler} type="text" name='email' placeholder='email' />
                         </div>
+                        {
+                            errors.email ? <p className='text-red-500'>{errors.email}</p>: null
+                        }
                         <div className='space-x-2'>
                             <label className='text-lg'>Password:</label>
                             <input className='border border-black rounded-xl text-sm p-2' onChange={signupHandler} type="password" name='password' placeholder='password' />
                         </div>
+                        <div className='space-x-2'>
+                            <label className='text-lg'>Confirm Password:</label>
+                            <input className='border border-black rounded-xl text-sm p-2' onChange={signupHandler} type="password" name='confirmPassword' placeholder='password' />
+                        </div>
+                        {
+                            errors.password ? <p className='text-red-500'>{errors.password}</p>: null
+                        }
                         {
                             buttonDisabled ? null : <button className='w-1/2 bg-blue-500 hover:bg-blue-700 text-white hover:shadow-xl p-2 rounded-xl'>Signup</button>
                         }
                     </form>
-                    <p className='text-center'><Link href='/login'>Already Have an Acccount? Login</Link></p>
+                    <p className='text-center'><Link href='/'>Already Have an Acccount? Login</Link></p>
                 </div>
             </div>
         </div>

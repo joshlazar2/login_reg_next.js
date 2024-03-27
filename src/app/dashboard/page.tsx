@@ -33,14 +33,14 @@ export default function DashboardPage() {
             .catch((err) => {
                 console.log(err)
             })
-    }, [myTodos])
+    }, [])
 
     const logoutHandler = () => {
         axios.get('api/users/logout')
             .then((res) => {
                 console.log(res)
                 console.log(res.data.message)
-                router.push('/login')
+                router.push('/')
             })
             .catch((error: any) => {
                 console.log(error)
@@ -56,6 +56,16 @@ export default function DashboardPage() {
             .catch((err) => {
                 console.log(err)
             })
+    }
+
+    const deleteHandler = (id: any) => {
+        axios.delete(`/api/todos/delete/${id}`)
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     }
 
     return (
@@ -90,7 +100,8 @@ export default function DashboardPage() {
                                     <div className='flex flex-col items-center space-y-4'>
                                         <p className='text-blue-500'>Content:</p>
                                         <p>{todo.content}</p>
-                                        <button onClick={() => completedHandler(todo._id)} className='bg-green-500 text-white rounded-lg p-2 hover:bg-green-700 hover:shadow-xl'>Complete</button>
+                                        <button onClick={() => completedHandler(todo._id)} className='bg-green-500 text-white rounded-lg p-2 hover:bg-green-700 hover:shadow-xl w-[90px]'>Complete</button>
+                                        <button onClick={() => deleteHandler(todo._id)} className='bg-red-500 text-white rounded-lg p-2 hover:bg-red-700 hover:shadow-xl w-[90px]'>Delete</button>
                                     </div>
                                 </div>
                             ))
