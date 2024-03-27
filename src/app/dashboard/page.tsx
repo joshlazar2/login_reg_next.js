@@ -1,16 +1,38 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+//Fix map method type: any
+
 export default function DashboardPage() {
+
+    interface User {
+        _id?: string,
+        username?: string,
+        email?: string
+    }
+
+    interface TodoId {
+        _id?: string
+    }
+
+    interface Todo {
+        _id?: string,
+        content?: string,
+        user_id?: string,
+        completed?: boolean,
+        createdAt?: string,
+        updatedAt?: string,
+        __v?: number
+    }
 
     const router = useRouter();
 
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState<User>({})
 
-    const [myTodos, setMyTodos] = useState([])
+    const [myTodos, setMyTodos] = useState<Todo[]>([])
 
     useEffect(() => {
         axios.get('/api/users/me')
@@ -19,9 +41,14 @@ export default function DashboardPage() {
                 console.log(res.data.message)
                 setUser(res.data.data)
             })
-            .catch((error: any) => {
-                console.log(error)
-            })
+            .catch((error: AxiosError) => {
+                console.log(error.message); // Accessing the message property
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                }
+            });
     }, [])
 
     useEffect(() => {
@@ -30,9 +57,14 @@ export default function DashboardPage() {
                 console.log(res)
                 setMyTodos(res.data)
             })
-            .catch((err) => {
-                console.log(err)
-            })
+            .catch((err: AxiosError) => {
+                console.log(err.message); // Accessing the message property
+                if (err.response) {
+                    console.log(err.response.data);
+                    console.log(err.response.status);
+                    console.log(err.response.headers);
+                }
+            });
     }, [])
 
     const logoutHandler = () => {
@@ -42,34 +74,49 @@ export default function DashboardPage() {
                 console.log(res.data.message)
                 router.push('/')
             })
-            .catch((error: any) => {
-                console.log(error)
-            })
+            .catch((error: AxiosError) => {
+                console.log(error.message); // Accessing the message property
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                }
+            });
     }
 
     //Research (any) and typescipt stuff
-    const completedHandler = (id: any) => {
+    const completedHandler = (id: TodoId) => {
         axios.put(`/api/todos/complete/${id}`)
             .then((res) => {
                 console.log(res)
                 const updatedTodos = myTodos.filter(todo => todo._id !== id)
                 setMyTodos(updatedTodos)
             })
-            .catch((err) => {
-                console.log(err)
-            })
+            .catch((err: AxiosError) => {
+                console.log(err.message); // Accessing the message property
+                if (err.response) {
+                    console.log(err.response.data);
+                    console.log(err.response.status);
+                    console.log(err.response.headers);
+                }
+            });
     }
 
-    const deleteHandler = (id: any) => {
+    const deleteHandler = (id: TodoId) => {
         axios.delete(`/api/todos/delete/${id}`)
-        .then((res) => {
-            console.log(res)
-            const updatedTodos = myTodos.filter(todo => todo._id !== id)
-            setMyTodos(updatedTodos)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+            .then((res) => {
+                console.log(res)
+                const updatedTodos = myTodos.filter(todo => todo._id !== id)
+                setMyTodos(updatedTodos)
+            })
+            .catch((err: AxiosError) => {
+                console.log(err.message); // Accessing the message property
+                if (err.response) {
+                    console.log(err.response.data);
+                    console.log(err.response.status);
+                    console.log(err.response.headers);
+                }
+            });
     }
 
     return (
@@ -116,5 +163,3 @@ export default function DashboardPage() {
         </div >
     )
 }
-
-//Fix Property 'username' does not exist on type '{}'.ts(2339)

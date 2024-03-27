@@ -1,10 +1,18 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
+
+    interface AxiosErrorResponse {
+        response?: {
+            data?: {
+                error: string;
+            };
+        };
+    }
 
     const router = useRouter();
 
@@ -37,9 +45,13 @@ export default function LoginPage() {
                 console.log(res.data.message)
                 router.push('/dashboard')
             })
-            .catch((error: any) => {
+            .catch((error: AxiosErrorResponse) => {
                 console.log("Login Failed?", error)
-                setError(error.response.data.error)
+                if(error.response && error.response.data){
+                    setError(error.response.data.error)
+                } else{
+                    setError("An unexpected error occurred")
+                }
             })
     }
 

@@ -6,6 +6,21 @@ import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
 
+    interface AxiosErrorResponse {
+        response?: {
+            data?: {
+                email?: string,
+                password?: string
+            }
+        }
+    }
+
+    interface Errors {
+        email?: string,
+        password?: string,
+        general?: string
+    }
+
     const router = useRouter();
 
     const [user, setUser] = useState({
@@ -15,7 +30,7 @@ export default function SignupPage() {
         confirmPassword: ''
     })
 
-    const [errors, setErrors] = useState({})
+    const [errors, setErrors] = useState<Errors>({});
 
     const [buttonDisabled, setButtonDisabled] = useState(false)
 
@@ -39,9 +54,13 @@ export default function SignupPage() {
                 console.log(res.data.message)
                 router.push('/')
             })
-            .catch((error: any) => {
+            .catch((error: AxiosErrorResponse) => {
                 console.log("Signup Failed", error)
-                setErrors(error.response.data)
+                if(error.response && error.response.data){
+                    setErrors(error.response.data)
+                } else {
+                    setErrors({ general: "An unexpected error occurred" });
+                }
             })
     }
 
