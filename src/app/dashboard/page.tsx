@@ -52,6 +52,8 @@ export default function DashboardPage() {
         axios.put(`/api/todos/complete/${id}`)
             .then((res) => {
                 console.log(res)
+                const updatedTodos = myTodos.filter(todo => todo._id !== id)
+                setMyTodos(updatedTodos)
             })
             .catch((err) => {
                 console.log(err)
@@ -62,6 +64,8 @@ export default function DashboardPage() {
         axios.delete(`/api/todos/delete/${id}`)
         .then((res) => {
             console.log(res)
+            const updatedTodos = myTodos.filter(todo => todo._id !== id)
+            setMyTodos(updatedTodos)
         })
         .catch((err) => {
             console.log(err)

@@ -51,11 +51,11 @@ export default function LoginPage() {
                     <form className='space-y-6 flex flex-col items-center' onSubmit={submitHandler}>
                         <div className='space-x-2'>
                             <label className="text-lg">Email:</label>
-                            <input className='border border-black rounded-xl p-2 text-sm' onChange={loginHandler} type="text" name='email' />
+                            <input className='border border-black rounded-xl p-2 text-sm' onChange={loginHandler} type="text" name='email' placeholder='email' />
                         </div>
                         <div className='space-x-2'>
                             <label className="text-lg">Password:</label>
-                            <input className='border border-black rounded-xl p-2 text-sm' onChange={loginHandler} type="password" name='password' />
+                            <input className='border border-black rounded-xl p-2 text-sm' onChange={loginHandler} type="password" name='password' placeholder='password' />
                         </div>
                         {
                             error ? <p className='text-red-500'>{error}</p> : null
