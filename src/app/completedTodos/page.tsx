@@ -1,12 +1,29 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function completedTodosPage() {
 
-    const [completedTodos, setCompletedTodos] = useState([])
+    //Fix map method type: any
+    //Study the Todo interface and how it effects the completed and delete handlers
+
+    const [completedTodos, setCompletedTodos] = useState<Todo[]>([])
+
+    interface TodoId {
+        _id?: string
+    }
+
+    interface Todo {
+        _id?: string,
+        content?: string,
+        user_id?: string,
+        completed?: boolean,
+        createdAt?: string,
+        updatedAt?: string,
+        __v?: number
+    }
 
     useEffect(() => {
         axios.get('/api/todos/myTodosCompleted')
@@ -14,34 +31,49 @@ export default function completedTodosPage() {
                 console.log(res)
                 setCompletedTodos(res.data)
             })
-            .catch((err) => {
-                console.log(err)
-            })
+            .catch((err: AxiosError) => {
+                console.log(err.message); // Accessing the message property
+                if (err.response) {
+                    console.log(err.response.data);
+                    console.log(err.response.status);
+                    console.log(err.response.headers);
+                }
+            });
     }, [])
 
     //Research (any) and typescipt stuff
-    const completedHandler = (id: any) => {
+    const completedHandler = (id: TodoId) => {
         axios.put(`/api/todos/complete/${id}`)
             .then((res) => {
                 console.log(res)
                 const updatedTodos = completedTodos.filter(todo => todo._id !== id)
                 setCompletedTodos(updatedTodos)
             })
-            .catch((err) => {
-                console.log(err)
-            })
+            .catch((err: AxiosError) => {
+                console.log(err.message); // Accessing the message property
+                if (err.response) {
+                    console.log(err.response.data);
+                    console.log(err.response.status);
+                    console.log(err.response.headers);
+                }
+            });
     }
 
-    const deleteHandler = (id: any) => {
+    const deleteHandler = (id: TodoId) => {
         axios.delete(`/api/todos/delete/${id}`)
         .then((res) => {
             console.log(res)
             const updatedTodos = completedTodos.filter(todo => todo._id !== id)
             setCompletedTodos(updatedTodos)
         })
-        .catch((err) => {
-            console.log(err)
-        })
+        .catch((err: AxiosError) => {
+            console.log(err.message); // Accessing the message property
+            if (err.response) {
+                console.log(err.response.data);
+                console.log(err.response.status);
+                console.log(err.response.headers);
+            }
+        });
     }
 
     return (

@@ -10,6 +10,9 @@ export async function POST(request: NextRequest){
         const userId = await getDataFromToken(request)
         const reqBody = await request.json()
         const {content} = reqBody;
+        if(!content){
+            return NextResponse.json({error: 'Content is Required'}, {status: 400})
+        }
         const newTodo = new Todo({
             content,
             user_id: userId
@@ -20,6 +23,6 @@ export async function POST(request: NextRequest){
         return NextResponse.json({message: "Todo Created", success: true})
 
     } catch (error: any) {
-        return NextResponse.json({error: error.message}, {status:400})
+        return NextResponse.json({ error: error.message }, { status: 500 })
     }
 }
