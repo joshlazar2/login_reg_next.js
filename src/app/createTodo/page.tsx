@@ -4,7 +4,7 @@ import axios, {AxiosError} from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-export default function createTodoPage() {
+export default function CreateTodoPage() {
 
     interface AxiosResponseError {
         response?: {

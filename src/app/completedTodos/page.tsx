@@ -4,7 +4,7 @@ import axios, {AxiosError} from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-export default function completedTodosPage() {
+export default function CompletedTodosPage() {
 
     //Fix map method type: any
     //Study the Todo interface and how it effects the completed and delete handlers
