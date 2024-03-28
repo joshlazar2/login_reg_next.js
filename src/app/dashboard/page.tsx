@@ -140,7 +140,7 @@ export default function DashboardPage() {
                         </div>
                         <div className='flex flex-col space-y-4'>
                             <button onClick={() => router.push('/createTodo')} className='bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-700 hover:shadow-xl'>Create a Todo</button>
-                            <button onClick={() => router.push('/completedTodos')} className='bg-green-500 text-white p-2 rounded-xl hover:bg-green-700 hover:shadow-xl'>View Completed Todo's</button>
+                            <button onClick={() => router.push('/completedTodos')} className='bg-green-500 text-white p-2 rounded-xl hover:bg-green-700 hover:shadow-xl'>View Completed Todos</button>
                         </div>
                     </div>
                     <div className='flex flex-col items-center space-y-4'>
