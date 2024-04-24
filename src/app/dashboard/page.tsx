@@ -152,6 +152,7 @@ export default function DashboardPage() {
                                         <p className='text-blue-500'>Content:</p>
                                         <p>{todo.content}</p>
                                         <button onClick={() => completedHandler(todo._id)} className='bg-green-500 text-white rounded-lg p-2 hover:bg-green-700 hover:shadow-xl w-[90px]'>Complete</button>
+                                        <button onClick={() => router.push(`/editTodo/${todo._id}`)} className='bg-yellow-500 text-white rounded-lg p-2 hover:bg-yellow-700 hover:shadow-xl w-[90px]'>Edit</button>
                                         <button onClick={() => deleteHandler(todo._id)} className='bg-red-500 text-white rounded-lg p-2 hover:bg-red-700 hover:shadow-xl w-[90px]'>Delete</button>
                                     </div>
                                 </div>
